@@ -10,7 +10,15 @@ import {
 } from "react-native";
 
 class HomeScreen extends Component {
-  state = {};
+  state = {
+    id: ""
+  };
+
+  constructor(props) {
+    super(props);
+
+    this.state = { id: "" };
+  }
 
   static navigationOptions = {
     title: "Machine Management System",
@@ -22,6 +30,13 @@ class HomeScreen extends Component {
       fontWeight: "bold"
     }
   };
+
+  componentDidMount() {
+    const id = this.props.navigation.getParam("id", "");
+    this.setState({
+      id: id
+    });
+  }
   render() {
     let width = Dimensions.get("window").width - 40;
     return (
@@ -47,7 +62,9 @@ class HomeScreen extends Component {
               borderRadius: 10
             }
           ]}
-          onPress={() => this.props.navigation.navigate("Breakdown")}
+          onPress={() =>
+            this.props.navigation.navigate("Breakdown", { id: this.state.id })
+          }
           activeOpacity={0.8}
         >
           <Text style={{ fontSize: 30, fontWeight: "bold" }}>Break Down</Text>
@@ -63,7 +80,7 @@ class HomeScreen extends Component {
             borderRadius: 10
           }}
           activeOpacity={0.8}
-          onPress={() => this.props.navigation.navigate("Packing")}
+          onPress={() => this.props.navigation.navigate("Breakdown")}
         >
           <Text style={{ fontSize: 30, fontWeight: "bold" }}>
             Break Down List

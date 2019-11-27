@@ -15,10 +15,12 @@ import HomeScreen from "./src/screens/home";
 import AuthLoadingScreen from "./src/screens/auth";
 
 import BreakdownScreen from "./src/screens/breakdown";
+import QRScreen from "./src/screens/qrdata";
 
 const MainNavigator = createStackNavigator({
   Home: HomeScreen,
-  Breakdown: BreakdownScreen
+  Breakdown: BreakdownScreen,
+  QR: QRScreen
 });
 
 const AuthStack = createStackNavigator({ Login: LoginScreen });

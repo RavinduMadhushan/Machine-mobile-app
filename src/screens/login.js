@@ -8,25 +8,43 @@ import {
   Button,
   AsyncStorage
 } from "react-native";
+
 class LoginScreen extends Component {
+  static navigationOptions = {
+    header: null
+  };
+  constructor(props) {
+    super(props);
+
+    this.state = { mechanicID: " ", data: [], mechanic: "" };
+  }
+
   state = {
-    mechanicID: ""
+    mechanicID: "",
+    mechanic: "",
+    data: []
   };
 
   sendData() {
-    const mechanicID = this.state.mechanicID;
+    const mechanicID = this.state.mechanic;
     fetch(
-      `http://localhost:3001/api/mechanic/mechnic?mechanicId=${mechanicID}`,
+      `http://192.168.8.100:3000/api/mechanic/getId?mechanicId=${mechanicID}`,
       {
         method: "POST"
       }
     )
       .then(res => res.json())
       .then(res => {
-        const data = res["data"];
-        if (data.value == true) {
-          this.props.navigation.navigate("Home");
-          AsyncStorage.setItem("user", user);
+        const data = res;
+        this.setState({
+          mechanicID: res.mechanicID
+        });
+        if (res.mechanicID) {
+          // alert(res.mechanicID);
+          this.props.navigation.navigate("Home", {
+            id: res._id
+          });
+          // AsyncStorage.setItem("user", user);
         } else {
           alert("No user for this Id");
         }
@@ -53,7 +71,7 @@ class LoginScreen extends Component {
             width: 288,
             borderRadius: 6
           }}
-          onChangeText={mechanicID => this.setState({ mechanicID })}
+          onChangeText={mechanic => this.setState({ mechanic })}
           value={this.state.onChangeText}
           placeholder="  User Id"
         />
