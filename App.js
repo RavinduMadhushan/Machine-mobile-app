@@ -16,24 +16,39 @@ import AuthLoadingScreen from "./src/screens/auth";
 
 import BreakdownScreen from "./src/screens/breakdown";
 import QRScreen from "./src/screens/qrdata";
+import ConfirmScreen from "./src/screens/confirm";
+import RepairScreen from "./src/screens/repairconfirm";
+import SupervisorQRScreen from "./src/screens/supervisor";
+import SupervisorDetails from "./src/screens/supervisordetails";
 
 const MainNavigator = createStackNavigator({
+  Login: LoginScreen,
   Home: HomeScreen,
   Breakdown: BreakdownScreen,
-  QR: QRScreen
+  QR: QRScreen,
+  Confirm:ConfirmScreen,
+  RepairConfirm:RepairScreen,
+  Superviser:SupervisorQRScreen,
+  SuperviserDetails:SupervisorDetails
+  
+},{
+  initialRouteName:"Login"
 });
 
-const AuthStack = createStackNavigator({ Login: LoginScreen });
+// const AuthStack = createStackNavigator({ Login: LoginScreen });
 
-export default createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoadingScreen,
-      App: MainNavigator,
-      Auth: AuthStack
-    },
-    {
-      initialRouteName: "AuthLoading"
-    }
-  )
-);
+// export default createAppContainer(
+//   createSwitchNavigator(
+//     {
+//       AuthLoading: AuthLoadingScreen,
+//       App: MainNavigator,
+//       Auth: AuthStack
+//     },
+//     {
+//       initialRouteName: "AuthLoading"
+//     }
+//   )
+// );
+const App = createAppContainer(MainNavigator);
+
+export default App;

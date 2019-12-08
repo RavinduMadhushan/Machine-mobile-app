@@ -2,15 +2,16 @@ import React, { Component } from "react";
 import { StyleSheet, Dimensions, View } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
 
-class BreakdownScreen extends Component {
+class ConfirmScreen extends Component {
   static navigationOptions = {
     title: "Back",
     headerTintColor: ""
   };
   onSuccess = async e => {
     const id = this.props.navigation.getParam("id", "");
+    // alert(id);
     if (e.data) {
-      await this.props.navigation.navigate("QR", {
+      await this.props.navigation.navigate("RepairConfirm", {
         data: e.data,
         scanner: this.scanner,
         id:id
@@ -46,4 +47,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BreakdownScreen;
+export default ConfirmScreen;

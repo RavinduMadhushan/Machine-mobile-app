@@ -36,6 +36,7 @@ class HomeScreen extends Component {
     this.setState({
       id: id
     });
+   
   }
   render() {
     let width = Dimensions.get("window").width - 40;
@@ -97,6 +98,7 @@ class HomeScreen extends Component {
             borderRadius: 10
           }}
           activeOpacity={0.8}
+          onPress={() => this.props.navigation.navigate("Confirm", { id: this.state.id })}
         >
           <Text style={{ fontSize: 30, fontWeight: "bold" }}>Confirm</Text>
         </TouchableOpacity>

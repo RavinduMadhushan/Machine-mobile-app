@@ -2,19 +2,16 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { Card, ListItem, Icon } from "react-native-elements";
 
-class QRScreen extends Component {
+class SupervisorDetails extends Component {
   state = {
     qrCodeData: "",
     id:"",
     data: {
       _id:"",
- 
-      machineInventory: "",
-      purchaseCountry: "",
-      companyName: "",
-      serialNumber: "",
-      location: "",
-      machineType: ""
+      name:"",
+      lineSupervisor:""
+
+
     }
   };
 
@@ -25,6 +22,10 @@ class QRScreen extends Component {
   }
   sendData() {
     const id = this.props.navigation.getParam("id", "");
+    // alert(id);
+    const machineInventory = this.props.navigation.getParam("machine", "");
+    alert(machineInventory);
+    const qrCodeData = this.props.navigation.getParam("data", "No data read");
     var date = new Date();
 
     date.setHours(0, 0, 0, 0);
@@ -33,14 +34,15 @@ class QRScreen extends Component {
  
 
     var data = {
-      breakdownDate: date.getTime(),
-      breakdownTime: Date.now(),
-      machineInventoryID: this.state.data._id,
+        breakdownFinishDate: date.getTime(),
+        breakdownFinishTime: Date.now(),
+      machineInventoryID: machineInventory,
       mechnicId:id,
+      superviser:qrCodeData
       };
       try {
        fetch(
-      "http://192.168.8.100:3000/api/breakdown/new/",
+      "http://192.168.8.100:3000/api/breakdown/update/",
       {
       method: "POST",
       headers: {
@@ -51,8 +53,9 @@ class QRScreen extends Component {
       }
       ) .then(res => res.json())
         .then(res => {
+          const data = res;
+
           this.props.navigation.navigate("Home")
-          
         })
         .catch((error) => {
           alert(error);
@@ -70,7 +73,8 @@ class QRScreen extends Component {
     //The code bellow will receive the props passed by QRCodeScannerScreen
     const id = this.props.navigation.getParam("id", "");
     const qrCodeData = this.props.navigation.getParam("data", "No data read");
-   
+    const machineInventory = this.props.navigation.getParam("machineInventory", "");
+    alert(machineInventory);
    
     // const scanner = this.props.navigation.getParam("scanner", () => false);
 
@@ -78,8 +82,8 @@ class QRScreen extends Component {
     this.setState({ id:id });
 
     const ID = qrCodeData;
-    alert(ID);
-    fetch(`http://192.168.8.100:3000/api/machine/getbyID?id=${ID}`, {
+    
+    fetch(`http://192.168.8.100:3000/api/superviser/getbyID?id=${ID}`, {
       method: "POST"
     })
       .then(res => res.json())
@@ -105,11 +109,9 @@ class QRScreen extends Component {
   titleStyle={{textAlign:"center"}}
   >
   
-    <Text style={styles.text}>Serial No : {this.state.data.serialNumber}</Text>
-    <Text style={styles.text}>Machine Type : {this.state.data.machineType.machineType}</Text>
-    <Text style={styles.text}>Purchase Country : {this.state.data.supplier.supplierCountry}</Text>
-    <Text style={styles.text}>Company Name : {this.state.data.supplierName}</Text>
-    <Text style={styles.text}>Location : {this.state.data.location}</Text>
+    <Text style={styles.text}>Name : {this.state.data.name}</Text>
+    <Text style={styles.text}>Company ID : {this.state.data.lineSupervisor}</Text>
+  
 
   
   <Button
@@ -136,4 +138,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default QRScreen;
+export default SupervisorDetails;

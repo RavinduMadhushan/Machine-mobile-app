@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { Card, ListItem, Icon } from "react-native-elements";
 
-class QRScreen extends Component {
+class RepairScreen extends Component {
   state = {
     qrCodeData: "",
     id:"",
@@ -25,43 +25,13 @@ class QRScreen extends Component {
   }
   sendData() {
     const id = this.props.navigation.getParam("id", "");
-    var date = new Date();
+    const qrCodeData = this.props.navigation.getParam("data", "No data read");
+    alert(qrCodeData);
+    this.props.navigation.navigate("Superviser", {
+        id:id,
+        machine:qrCodeData
+      });
 
-    date.setHours(0, 0, 0, 0);
-
-
- 
-
-    var data = {
-      breakdownDate: date.getTime(),
-      breakdownTime: Date.now(),
-      machineInventoryID: this.state.data._id,
-      mechnicId:id,
-      };
-      try {
-       fetch(
-      "http://192.168.8.100:3000/api/breakdown/new/",
-      {
-      method: "POST",
-      headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-      }
-      ) .then(res => res.json())
-        .then(res => {
-          this.props.navigation.navigate("Home")
-          
-        })
-        .catch((error) => {
-          alert(error);
-        });
-       
-      } catch (errors) {
-     
-      alert(errors);
-      } 
     
  
   }
@@ -78,7 +48,7 @@ class QRScreen extends Component {
     this.setState({ id:id });
 
     const ID = qrCodeData;
-    alert(ID);
+    // alert(ID);
     fetch(`http://192.168.8.100:3000/api/machine/getbyID?id=${ID}`, {
       method: "POST"
     })
@@ -105,11 +75,12 @@ class QRScreen extends Component {
   titleStyle={{textAlign:"center"}}
   >
   
-    <Text style={styles.text}>Serial No : {this.state.data.serialNumber}</Text>
+  <Text style={styles.text}>Serial No : {this.state.data.serialNumber}</Text>
     <Text style={styles.text}>Machine Type : {this.state.data.machineType.machineType}</Text>
     <Text style={styles.text}>Purchase Country : {this.state.data.supplier.supplierCountry}</Text>
     <Text style={styles.text}>Company Name : {this.state.data.supplierName}</Text>
     <Text style={styles.text}>Location : {this.state.data.location}</Text>
+
 
   
   <Button
@@ -136,4 +107,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default QRScreen;
+export default RepairScreen;

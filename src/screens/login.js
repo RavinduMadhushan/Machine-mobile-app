@@ -27,31 +27,51 @@ class LoginScreen extends Component {
 
   sendData() {
     const mechanicID = this.state.mechanic;
-    fetch(
-      `http://192.168.8.100:3000/api/mechanic/getId?mechanicId=${mechanicID}`,
+
+    var data = {
+      mechanic:this.state.mechanic
+      };
+      try {
+       fetch(
+      "http://192.168.8.100:3000/api/mechanic/getId/",
       {
-        method: "POST"
+      method: "POST",
+      headers: {
+      "Accept": "application/json",
+      "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
       }
-    )
-      .then(res => res.json())
-      .then(res => {
-        const data = res;
-        this.setState({
-          mechanicID: res.mechanicID
+      ) .then(res => res.json())
+        .then(res => {
+     
+          if (!res.length==0) {
+            const data = res;
+            // console.log(data.length)
+            // console.log(data);
+  
+            this.setState({
+              mechanicID: res.mechanicID
+            });
+            // alert(data[0].mechanicID);
+
+            this.props.navigation.navigate("Home", {
+              id: data[0]._id
+            });
+          } else {
+            alert("No user for this Id");
+          }
+        })
+        .catch(err => {
+          alert(err);
         });
-        if (res.mechanicID) {
-          // alert(res.mechanicID);
-          this.props.navigation.navigate("Home", {
-            id: res._id
-          });
-          // AsyncStorage.setItem("user", user);
-        } else {
-          alert("No user for this Id");
-        }
-      })
-      .catch(err => {
-        alert(err);
-      });
+       
+      } catch (errors) {
+     
+      alert(errors);
+      } 
+    
+ 
   }
   render() {
     const { navigation } = this.props;

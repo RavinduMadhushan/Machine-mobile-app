@@ -2,21 +2,25 @@ import React, { Component } from "react";
 import { StyleSheet, Dimensions, View } from "react-native";
 import QRCodeScanner from "react-native-qrcode-scanner";
 
-class BreakdownScreen extends Component {
+class SupervisorQRScreen extends Component {
   static navigationOptions = {
     title: "Back",
     headerTintColor: ""
   };
   onSuccess = async e => {
     const id = this.props.navigation.getParam("id", "");
+ 
+    const machineInventory = this.props.navigation.getParam("machine", "");
+    alert(machineInventory);
     if (e.data) {
-      await this.props.navigation.navigate("QR", {
+      await this.props.navigation.navigate("SuperviserDetails", {
         data: e.data,
         scanner: this.scanner,
-        id:id
+        id:id,
+        machine:machineInventory
       });
     } else {
-      alert("No Machine for this QR");
+      alert("No Supervisor for this QR");
     }
   };
 
@@ -46,4 +50,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BreakdownScreen;
+export default SupervisorQRScreen;
