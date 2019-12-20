@@ -8,13 +8,9 @@ class RepairScreen extends Component {
     id:"",
     data: {
       _id:"",
- 
-      machineInventory: "",
-      purchaseCountry: "",
-      companyName: "",
       serialNumber: "",
       location: "",
-      machineType: ""
+    
     }
   };
 
@@ -27,7 +23,7 @@ class RepairScreen extends Component {
     const id = this.props.navigation.getParam("id", "");
     const qrCodeData = this.props.navigation.getParam("data", "No data read");
     alert(qrCodeData);
-    this.props.navigation.navigate("Superviser", {
+    this.props.navigation.navigate("Breakdowntype", {
         id:id,
         machine:qrCodeData
       });
@@ -49,7 +45,7 @@ class RepairScreen extends Component {
 
     const ID = qrCodeData;
     // alert(ID);
-    fetch(`http://192.168.8.100:3000/api/machine/getbyID?id=${ID}`, {
+    fetch(`http://192.168.21.242:3000/api/machine/getbyID?id=${ID}`, {
       method: "POST"
     })
       .then(res => res.json())
@@ -76,9 +72,8 @@ class RepairScreen extends Component {
   >
   
   <Text style={styles.text}>Serial No : {this.state.data.serialNumber}</Text>
-    <Text style={styles.text}>Machine Type : {this.state.data.machineType.machineType}</Text>
-    <Text style={styles.text}>Purchase Country : {this.state.data.supplier.supplierCountry}</Text>
-    <Text style={styles.text}>Company Name : {this.state.data.supplierName}</Text>
+   
+
     <Text style={styles.text}>Location : {this.state.data.location}</Text>
 
 

@@ -1,0 +1,3 @@
+    <Text style={styles.text}>Machine Type : {this.state.data.machineType.machineType}</Text>
+    <Text style={styles.text}>Purchase Country : {this.state.data.supplier.supplierCountry}</Text>
+    <Text style={styles.text}>Company Name : {this.state.data.supplier.supplierName}</Text>

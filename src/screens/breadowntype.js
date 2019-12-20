@@ -1,21 +1,15 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Button } from "react-native";
 import { Card, ListItem, Icon } from "react-native-elements";
+import { Dropdown } from 'react-native-material-dropdown';
 
-class QRScreen extends Component {
+class BreakdownTypeScreen extends Component {
   state = {
     qrCodeData: "",
     id:"",
+    breakdowntypeid:"",
     data: {
-      _id:"",
- 
-      machineInventory: "",
-      purchaseCountry: "",
-      companyName: "",
-      serialNumber: "",
-      location: "",
-      machineType:[],
-      supplier:[]
+        breakdowntype:""
     }
   };
 
@@ -25,44 +19,21 @@ class QRScreen extends Component {
     this.state = { qrCodeData: " ", data: [],id:"" };
   }
   sendData() {
+
+    const machine = this.props.navigation.getParam("machine", "No data read");
+    
     const id = this.props.navigation.getParam("id", "");
-    var date = new Date();
-
-    date.setHours(0, 0, 0, 0);
-
+   
+     this.props.navigation.navigate("Superviser", {
+        machine: machine,
+        id:id,
+        breakdowntypeid:this.state.breakdowntypeid,
+      });
+    
 
  
 
-    var data = {
-      breakdownDate: date.getTime(),
-      breakdownTime: Date.now(),
-      machineInventoryID: this.state.data._id,
-      mechnicId:id,
-      };
-      try {
-       fetch(
-      "http://192.168.21.242:3000/api/breakdown/new/",
-      {
-      method: "POST",
-      headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-      }
-      ) .then(res => res.json())
-        .then(res => {
-          this.props.navigation.navigate("Home")
-          
-        })
-        .catch((error) => {
-          alert(error);
-        });
-       
-      } catch (errors) {
-     
-      alert(errors);
-      } 
+
     
  
   }
@@ -77,11 +48,8 @@ class QRScreen extends Component {
 
     this.setState({ qrCodeData: qrCodeData });
     this.setState({ id:id });
-
-    const ID = qrCodeData;
-    alert(ID);
-    fetch(`http://192.168.21.242:3000/api/machine/getbyID?id=${ID}`, {
-      method: "POST"
+    fetch(`http://192.168.21.242:3000/api/breakdowntype/getAll`, {
+      method: "GET"
     })
       .then(res => res.json())
       .then(res => {
@@ -89,7 +57,7 @@ class QRScreen extends Component {
           data: JSON.parse(JSON.stringify(res))
           
         });
-console.log(data);
+        console.log(res);
         // alert(this.state.data);
       })
       .catch(err => {
@@ -98,18 +66,27 @@ console.log(data);
 
     // alert(this.state.data[0].companyName);
   }
+  onChangeText(text) {
+    console.log(text);
+    this.setState({ breakdowntypeid: text });
+  }
 
   render() {
     return (
       <View style={styles.container}>
       <Card
-  title={this.state.data.machineInventory}
+  
   titleStyle={{textAlign:"center"}}
   >
   
-    <Text style={styles.text}>Serial No : {this.state.data.serialNumber}</Text>
-
-    <Text style={styles.text}>Location : {this.state.data.location}</Text>
+  <Dropdown
+        label='Select Breakdown Type'
+        data={this.state.data}
+        valueExtractor ={({_id})=>_id} // this one extract the value from your data
+        labelExtractor ={({breakdowntype})=>breakdowntype} 
+        animationDuration={100}
+        onChangeText={value => this.onChangeText(value)}//this one extracts the label
+      />
 
   
   <Button
@@ -136,4 +113,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default QRScreen;
+export default BreakdownTypeScreen;

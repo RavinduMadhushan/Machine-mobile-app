@@ -20,6 +20,7 @@ import ConfirmScreen from "./src/screens/confirm";
 import RepairScreen from "./src/screens/repairconfirm";
 import SupervisorQRScreen from "./src/screens/supervisor";
 import SupervisorDetails from "./src/screens/supervisordetails";
+import BreakdownTypeScreen from "./src/screens/breadowntype";
 
 const MainNavigator = createStackNavigator({
   Login: LoginScreen,
@@ -27,6 +28,7 @@ const MainNavigator = createStackNavigator({
   Breakdown: BreakdownScreen,
   QR: QRScreen,
   Confirm:ConfirmScreen,
+  Breakdowntype:BreakdownTypeScreen,
   RepairConfirm:RepairScreen,
   Superviser:SupervisorQRScreen,
   SuperviserDetails:SupervisorDetails

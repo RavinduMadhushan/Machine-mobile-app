@@ -11,13 +11,15 @@ class SupervisorQRScreen extends Component {
     const id = this.props.navigation.getParam("id", "");
  
     const machineInventory = this.props.navigation.getParam("machine", "");
+    const breakdowntypeid = this.props.navigation.getParam("breakdowntypeid", "");
     alert(machineInventory);
     if (e.data) {
       await this.props.navigation.navigate("SuperviserDetails", {
         data: e.data,
         scanner: this.scanner,
         id:id,
-        machine:machineInventory
+        machine:machineInventory,
+        breakdowntypeid:breakdowntypeid
       });
     } else {
       alert("No Supervisor for this QR");

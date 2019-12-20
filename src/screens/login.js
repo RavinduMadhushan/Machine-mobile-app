@@ -33,7 +33,7 @@ class LoginScreen extends Component {
       };
       try {
        fetch(
-      "http://192.168.8.100:3000/api/mechanic/getId/",
+      "http://192.168.21.242:3000/api/mechanic/getId/",
       {
       method: "POST",
       headers: {

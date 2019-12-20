@@ -23,9 +23,11 @@ class SupervisorDetails extends Component {
   sendData() {
     const id = this.props.navigation.getParam("id", "");
     // alert(id);
+   const breakdowntypeid = this.props.navigation.getParam("breakdowntypeid", "");
     const machineInventory = this.props.navigation.getParam("machine", "");
     alert(machineInventory);
     const qrCodeData = this.props.navigation.getParam("data", "No data read");
+
     var date = new Date();
 
     date.setHours(0, 0, 0, 0);
@@ -38,11 +40,13 @@ class SupervisorDetails extends Component {
         breakdownFinishTime: Date.now(),
       machineInventoryID: machineInventory,
       mechnicId:id,
-      superviser:qrCodeData
+      superviser:qrCodeData,
+      breakdowntypeid:breakdowntypeid
       };
+      console.log(data);
       try {
        fetch(
-      "http://192.168.8.100:3000/api/breakdown/update/",
+      "http://192.168.21.242:3000/api/breakdown/update/",
       {
       method: "POST",
       headers: {
@@ -83,7 +87,7 @@ class SupervisorDetails extends Component {
 
     const ID = qrCodeData;
     
-    fetch(`http://192.168.8.100:3000/api/superviser/getbyID?id=${ID}`, {
+    fetch(`http://192.168.21.242:3000/api/superviser/getbyID?id=${ID}`, {
       method: "POST"
     })
       .then(res => res.json())
